@@ -1,28 +1,46 @@
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-import numpy as np
+def aplicarRegla(caracteres:list):
+    if len(caracteres) == 2:
+        sum = int(caracteres[0]) + int(caracteres[1])
+        return 1 if sum == 1 else 0
+    else:
+        sum = int(caracteres[0]) + int(caracteres[1]) + int(caracteres[2])
+        return 1 if sum == 1 else 0
 
-def get_triangle(P):
-    m = P * 0.5
-    n = P * 0.5 + np.array([0.5, 0])
-    k = P * 0.5 + np.array([0.25, np.sqrt(3)/4])
-    return np.array([m,n,k])
+def triangulo(cadena, numiter):
+    triangulo = [cadena]
+    actual = cadena
+    cont = 0
+    while(cont < numiter):
+        nueva = ""
+        for i in range(len(actual)):
+            if i == 0:
+                nueva += str(aplicarRegla([actual[i], actual[i+1]]))
+            elif i == len(actual) - 1:
+                nueva += str(aplicarRegla([actual[i-1], actual[i]]))
+            else:
+                nueva += str(aplicarRegla([actual[i-1], actual[i], actual[i+1]]))
+        triangulo.append(nueva)
+        actual = nueva
+        cont += 1
+    return triangulo
 
-if __name__ == '__main__':
-    # triangulo unitario inicial
-    triangle = np.array([[0, 0],
-                  [1, 0],
-                  [0.5, np.sqrt(3)/2]])
-    
-    # Crea un array que representa el triangulo Sierpinski hasta la etapa deseada
-    etapa = 1
-    for e in range(etapa):
-        triangle = get_triangle(triangle)
-    
-    # Se procede a graficar el triangulo
-    fig1 = plt.figure()
-    ax1 = fig1.add_subplot(111, aspect='equal')
-    for t in triangle.reshape(3**etapa,3,2):
-        ax1.add_patch(mpatches.Polygon(t, fc="y"))
-    
-    plt.show()
+def print_triangle(triangle):
+    with open("triangle.txt", "w") as f:
+        for line in triangle:
+            for char in line:
+                if char == "1":
+                    f.write("X")
+                else:
+                    f.write(" ")
+            f.write("\n")
+        
+if __name__ == "__main__":
+    while True:
+        cadena = input("Ingrese la cadena (0|1):\n")
+        numiter = int(input("Ingrese el numero de iteraciones:\n"))
+        if len(cadena) < 2:
+            print("La cadena debe tener al menos 2 caracteres")
+        else:
+            break
+    triangle = triangulo(cadena, numiter)
+    print_triangle(triangle)
