@@ -6,6 +6,6 @@
 Para poder ejecutar los codigos se debe instalar los paquetes necesarios
 
 ```
-git clone https://github.com/gerardhios/AutomatasCelulares.git
-pip install -r requirements.txt
+$ git clone https://github.com/gerardhios/AutomatasCelulares.git
+$ pip install -r requirements.txt
 ```
