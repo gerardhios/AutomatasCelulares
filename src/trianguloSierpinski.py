@@ -1,3 +1,5 @@
+import os
+
 def aplicarRegla(caracteres:list):
     if len(caracteres) == 2:
         sum = int(caracteres[0]) + int(caracteres[1])
@@ -5,6 +7,16 @@ def aplicarRegla(caracteres:list):
     else:
         sum = int(caracteres[0]) + int(caracteres[1]) + int(caracteres[2])
         return 1 if sum == 1 else 0
+    
+def read_file():
+    cadena = ""
+    if not os.path.exists("inputtext.txt"):
+        print("El archivo inputtext.txt no existe, por favor cree el archivo con la cadena de entrada")
+    else:
+        with open("inputtext.txt", "r") as f:
+            cadena = f.readline()
+    
+    return cadena
 
 def triangulo(cadena, numiter):
     triangulo = [cadena]
@@ -35,12 +47,7 @@ def print_triangle(triangle):
             f.write("\n")
         
 if __name__ == "__main__":
-    while True:
-        cadena = input("Ingrese la cadena (0|1):\n")
-        numiter = int(input("Ingrese el numero de iteraciones:\n"))
-        if len(cadena) < 2:
-            print("La cadena debe tener al menos 2 caracteres")
-        else:
-            break
+    cadena = read_file()
+    numiter = int(input("Ingrese el numero de iteraciones: "))
     triangle = triangulo(cadena, numiter)
     print_triangle(triangle)

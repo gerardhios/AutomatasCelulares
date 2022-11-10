@@ -1,3 +1,4 @@
+import os
 def aplicarRegla(caracteres:list):
     zeros = 0
     ones = 0
@@ -26,6 +27,16 @@ def mayorityrule(cadena, numiter):
         cont += 1
     return triangulo
 
+def read_file():
+    cadena = ""
+    if not os.path.exists("inputtext.txt"):
+        print("El archivo inputtext.txt no existe, por favor cree el archivo con la cadena de entrada")
+    else:
+        with open("inputtext.txt", "r") as f:
+            cadena = f.readline()
+    
+    return cadena
+
 def print_out_text(triangle):
     with open("mayorityrule.txt", "w") as f:
         for line in triangle:
@@ -37,12 +48,7 @@ def print_out_text(triangle):
             f.write("\n")
         
 if __name__ == "__main__":
-    while True:
-        cadena = input("Ingrese la cadena (0|1):\n")
-        numiter = int(input("Ingrese el numero de iteraciones:\n"))
-        if len(cadena) < 2:
-            print("La cadena debe tener al menos 2 caracteres")
-        else:
-            break
+    cadena = read_file()
+    numiter = int(input("Ingrese el numero de iteraciones:\n"))
     triangle = mayorityrule(cadena, numiter)
     print_out_text(triangle)
